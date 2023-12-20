@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+	<context:component-scan base-package="com.springbook.biz"/>
+
+	<!--  생성자 인젝션 -->   
+	<bean id="boardService" class="com.springbook.biz.board.impl.BoardServiceImpl">
+		<constructor-arg name="dao" ref="boardDao" ></constructor-arg>
+	</bean>
+	<bean id="boardDao" class="com.springbook.biz.board.impl.BoardDaoImpl">
+	</bean>
+
+
+<!-- Setter 인젝션 
+<beans>
+	<bean id="BoardServiceImpl" class="com.springbook.biz.board.impl.BoardServiceImpl"/>
+		<property name="dao" ref="BoardDaoImpl"></property>
+	</bean>
+
+	<bean id="BoardDaoImpl" class="com.springbook.biz.board.impl.BoardDaoImpl">
+	</bean>
+-->
+</beans>

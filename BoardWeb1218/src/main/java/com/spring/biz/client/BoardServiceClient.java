@@ -27,7 +27,7 @@ public class BoardServiceClient {
 		}
 
 		// select by seq		
-		BoardVO vv = (BoardVO) boardService.getBoard(10);
+		BoardVO vv = (BoardVO) boardService.getBoard(vo);
 		System.out.println("BoardVO >>>>> vv  " + vv);
 		
 		

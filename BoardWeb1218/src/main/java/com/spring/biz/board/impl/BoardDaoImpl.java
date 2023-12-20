@@ -14,7 +14,7 @@ import com.spring.biz.board.BoardDao;
 import com.spring.biz.board.BoardVO;
 import com.spring.biz.common.JDBCUtil;
 
-@Repository
+//@Repository
 public class BoardDaoImpl implements BoardDao {
 	Connection conn = null;
 	PreparedStatement pstmt= null;
@@ -24,9 +24,12 @@ public class BoardDaoImpl implements BoardDao {
 			           + " values((select max(seq)+1 from board),?,?,?)";
 	
 	String BOARD_SELECT = "select * from board  order  by  seq  desc";
+	String BOARD_UPDATE = "update board set title = ?, writer = ?, content = ? "
+			            + " where seq = ? ";
 	
 	String BOARD_DELETE = "delete from board where seq ="
 			            + " (select min(seq) from board)";
+	String BOARD_DELETE_SEQ = "delete from board where seq = ? ";
 	String BOARD_SELECTSEQ = "select * from board where seq = ?"; 
 	
 	@Override
@@ -94,13 +97,13 @@ public class BoardDaoImpl implements BoardDao {
 	}
 
 	@Override
-	public BoardVO getBoard(int seq) {
+	public BoardVO getBoard(BoardVO vo) {
 		System.out.println("DAO.getBoard.Before...>>>>>>>>");
 		BoardVO m = new BoardVO();
 		try {
 			conn = JDBCUtil.getConnection();
 			pstmt = conn.prepareStatement(BOARD_SELECTSEQ);
-			pstmt.setInt(1, seq);
+			pstmt.setInt(1, vo.getSeq());
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				m.setSeq(rs.getInt("seq"));
@@ -116,5 +119,42 @@ public class BoardDaoImpl implements BoardDao {
 			JDBCUtil.close(rs, pstmt, conn);
 		}
 		return m;
+	}
+
+	@Override
+	public void delete(BoardVO vo) {
+		System.out.println("DAO.DeleteSeq.Before...>>>>>>>>");
+		try {
+			conn = JDBCUtil.getConnection();
+			pstmt = conn.prepareStatement(BOARD_DELETE_SEQ);
+			pstmt.setInt(1, vo.getSeq());
+			pstmt.executeUpdate();
+			System.out.println("삭제완료!!");
+		} catch (SQLException e) {			
+			System.out.println("삭제실패!!");
+			e.printStackTrace();
+		} finally {
+			JDBCUtil.close(pstmt, conn);
+		}		
+	}
+
+	@Override
+	public void update(BoardVO vo) {
+		try {
+			conn = JDBCUtil.getConnection();
+			pstmt = conn.prepareStatement(BOARD_UPDATE);
+			pstmt.setString(1, vo.getTitle());
+			pstmt.setString(2, vo.getWriter());
+			pstmt.setString(3, vo.getContent());
+			pstmt.setInt(4, vo.getSeq());
+			pstmt.executeUpdate();
+			System.out.println(BOARD_UPDATE);
+			System.out.println("수정완료!!");
+		} catch (SQLException e) {
+			System.out.println("수정실패!!");
+			e.printStackTrace();
+		} finally {
+			JDBCUtil.close(pstmt, conn);
+		}	
 	}
 }
