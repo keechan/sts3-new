@@ -31,7 +31,7 @@ public class BoardController {
 	@RequestMapping(value="/getBoard.do")
 	public ModelAndView getBoard(BoardVO vo, BoardServiceImpl service, ModelAndView mav ) throws Exception {
 		System.out.println("==> getBoard.do");
-		mav.setViewName("getBoard");
+		mav.setViewName("getBoard.jsp");
 		mav.addObject("m", service.getBoard(vo));
 		return mav;
 	}
@@ -39,7 +39,7 @@ public class BoardController {
 	@RequestMapping(value="/getBoardList.do")
 	public ModelAndView getBoardList(BoardServiceImpl service, ModelAndView mav) throws Exception {
 		System.out.println("GetBoardListController....>");
-		mav.setViewName("getBoardList");
+		mav.setViewName("getBoardList.jsp");
 		mav.addObject("li", service.getBoardList());
 		return mav;
 	}
