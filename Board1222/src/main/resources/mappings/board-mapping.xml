@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="BoardDao">
+
+<!--
+   <resultMap id="ShopResult" type="shop">
+  
+    property 값은  VO 필드명 , column은 테이블 필드명  
+    <id property="productId"  column="PRODUCT_ID" />
+    <result property="productName"    column="product_name" /> 
+    <result property="productPrice"   column="product_price" /> 
+    <result property="productDesc"    column="product_desc" /> 
+    <result property="productImgStr"  column="product_img" /> 
+                        
+  </resultMap>
+ -->
+ <!-- property:VO, column:칼럼명 -->
+  <resultMap type="BoardVO" id="boardResult">
+  	<id property="seq" column="idx" />
+  	<result property="title" column="제목" />
+  	<result property="writer" column="저자" />
+  	<result property="content" column="내용" />
+  	<result property="regDate" column="날짜" />
+  	<result property="cnt" column="조회수" />  	
+  </resultMap>
+  
+  <insert id="Board_INSERT" parameterType="BoardVO"  >
+  <selectKey keyProperty="seq" resultType="int" order="BEFORE">
+    select max(seq)+1 as seq from board
+  </selectKey>
+  
+   insert into board (seq, title, writer, content) 
+   values (#{seq}, #{title}, #{writer}, #{content})
+  </insert>
+
+  <delete id="Board_DELETE" parameterType="BoardVO"  >
+   delete from board where seq = #{seq}
+  </delete>
+
+  <update id="Board_ROWCNT" parameterType="BoardVO"  >
+   update board set cnt = nvl(cnt, 0) + 1 where seq = #{seq} 
+  </update>
+
+  <update id="Board_UPDATE" parameterType="BoardVO"  >
+   update board 
+      set title = #{title}, writer = #{writer}, content = #{content} 
+    where seq = #{seq}  
+  </update>
+  
+<!-- dYNAMIC sql 적용 전
+  <select id="Board_SELECT"  parameterType="BoardVO" resultType="BoardVO" >
+   <![CDATA[
+     select * from board order by seq desc
+   ]]>
+  </select>
+ 
+  <select id="Board_SELECTTITLE"  parameterType="BoardVO" resultType="BoardVO" >
+   select * from board where title LIKE '%'||#{ch2}||'%'
+  </select>
+
+  <select id="Board_SELECTWRITER"  parameterType="BoardVO" resultType="BoardVO" >
+   select * from board where writer LIKE '%'||#{ch2}||'%'
+  </select> 
+-->
+  <!-- Dynamic SQL 적용 후 -->
+  <select id="Board_SELECT_CH"  parameterType="BoardVO" resultType="BoardVO" >
+   select * 
+     from board 
+    where 1=1
+   <if test="ch1=='title'">
+      and title LIKE '%'||#{ch2}||'%'
+   </if>
+   <if test="ch1=='writer'">
+      and writer LIKE '%'||#{ch2}||'%'
+   </if>
+    order by seq desc
+  </select>
+  
+  <select id="Board_EDIT"  parameterType="BoardVO" resultMap="boardResult" >
+    <![CDATA[
+   select seq as idx, title "제목", writer "저자", content "내용", regdate "날짜", cnt "조회수" 
+     from board 
+    where seq = #{seq}
+    ]]> 
+  </select>
+  
+</mapper>

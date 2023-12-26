@@ -25,11 +25,20 @@
 	<property name="password" value="${jdbc.password}" />
 </bean>
 
-<!-- JdbcTemplate 설정 -->
+<bean id="sessionSession" class="org.mybatis.spring.SqlSessionFactoryBean">
+	<property name="dataSource" ref="dataSource"></property>
+	<property name="configLocation" value="classpath:sql-map-config.xml"></property>
+</bean>
 
+<bean class="org.mybatis.spring.SqlSessionTemplate">
+	<constructor-arg ref="sessionSession"/>
+</bean>
+
+<!-- JdbcTemplate 설정
 <bean id="jdbcTemplate"  class="org.springframework.jdbc.core.JdbcTemplate" >
   <property name="dataSource"  ref="dataSource" />
 </bean>
+-->
 
 <!-- Transaction 설정 -->
 <bean id="txManager"  class="org.springframework.jdbc.datasource.DataSourceTransactionManager">

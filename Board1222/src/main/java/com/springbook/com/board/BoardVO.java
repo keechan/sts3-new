@@ -13,4 +13,7 @@ public class BoardVO {
 	private String content;
 	private Date   regDate;
 	private int    cnt;
+	
+	private String ch1;
+	private String ch2;
 }

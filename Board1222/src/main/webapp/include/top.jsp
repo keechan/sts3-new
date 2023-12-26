@@ -18,5 +18,7 @@
 <nav>
 &emsp;<a href=boardGetBoardList.do>게시판 조회</a>
 &emsp;<a href=boardWrite.do>글쓰기</a>
+&emsp;<a href=examList.do>성적처리목록보기</a>
+&emsp;<a href=examInsert.do>성적입력</a>
 &emsp;&emsp;<a href=index.jsp>홈으로</a> 
 </nav>

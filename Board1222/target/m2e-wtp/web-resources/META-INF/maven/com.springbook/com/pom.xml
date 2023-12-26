@@ -24,7 +24,17 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	  </repositories>
 	
 	<dependencies>
-	
+	<!--  ㅡㅛㅠㅁ샨 -->
+	<dependency>
+		<groupId>org.mybatis</groupId>
+	    <artifactId>mybatis</artifactId>
+	    <version>3.3.1</version>		
+	</dependency>
+	<dependency>
+		<groupId>org.mybatis</groupId>
+	    <artifactId>mybatis-spring</artifactId>
+	    <version>1.2.4</version>		
+	</dependency>	
 	<!-- https://mvnrepository.com/artifact/com.oracle.database.jdbc/ojdbc8 -->
 	<dependency>
 	    <groupId>com.oracle.database.jdbc</groupId>
@@ -32,7 +42,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	    <version>19.7.0.0</version>
 	</dependency>
 	
-	
+	   
 	   <!-- mysql JDBC 드라이버 설정 -->
 		<dependency>
 		    <groupId>mysql</groupId>
