@@ -23,4 +23,8 @@
   	insert into examtbl (sno, sname, kor, eng, math, hist)
   	values (#{sno}, #{sname}, #{kor}, #{eng}, #{math}, #{hist})
   </insert>  
+  
+  <delete id="Exam_DELETE" parameterType="ExamVO">
+  	delete from examtbl where sno = #{sno}
+  </delete>  
 </mapper>

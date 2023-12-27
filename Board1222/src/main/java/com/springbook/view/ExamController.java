@@ -54,5 +54,14 @@ public class ExamController {
 		//model.addAttribute("li",service.getBoardList(null, null));
 		return "examList.do";
 	}
+	@RequestMapping(value="examDelete.do", method=RequestMethod.POST)
+	public String examDelete(ExamVO vo) {
+		System.out.println("====> examDelete.do POST 확인");
+		//값변경시 setter해도 됨
+		//System.out.println("----> vo " + vo);
+		service.examDelete(vo);
+		//model.addAttribute("li",service.getBoardList(null, null));
+		return "examList.do";
+	}	
 
 }

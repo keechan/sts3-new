@@ -20,5 +20,7 @@
 &emsp;<a href=boardWrite.do>글쓰기</a>
 &emsp;<a href=examList.do>성적처리목록보기</a>
 &emsp;<a href=examInsert.do>성적입력</a>
+&emsp;<a href=psdList.do>자료목록보기</a>
+&emsp;<a href=psdInsert.do>자료실입력</a>
 &emsp;&emsp;<a href=index.jsp>홈으로</a> 
 </nav>

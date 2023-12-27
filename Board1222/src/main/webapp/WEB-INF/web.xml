@@ -43,4 +43,14 @@
     <servlet-name>ExamController</servlet-name>
     <url-pattern>/ExamController</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>PsdController</display-name>
+    <servlet-name>PsdController</servlet-name>
+    <servlet-class>com.springbook.view.PsdController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>PsdController</servlet-name>
+    <url-pattern>/PsdController</url-pattern>
+  </servlet-mapping>
 </web-app>

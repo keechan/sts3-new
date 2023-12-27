@@ -29,7 +29,7 @@
 					<td>${m.getKor()}</td>
 					<td>${m.getEng()}</td>
 					<td>${m.getMath()}</td>
-					<td>${m.getHist()}</td>					
+					<td>${m.getHist()}</td>
 				</tr>
 			</c:forEach>
 		</table>

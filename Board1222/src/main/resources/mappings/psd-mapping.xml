@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="PsdDao">
+  <select id="Psd_SELECT"  parameterType="PsdVO" resultType="PsdVO" >
+   select * 
+     from psdtbl 
+    where 1=1
+   <if test="ch1=='seq'">
+      and seq like '%'||#{ch2}||'%'
+   </if>
+   <if test="ch1=='title'">
+      and title like '%'||#{ch2}||'%'
+   </if>
+    order by seq asc
+  </select>
+  <select id="Psd_SELECTONE" parameterType="PsdVO" resultType="PsdVO">
+  	select * 
+  	  from psdtbl 
+  	 where seq = #{seq}
+  </select>
+  <insert id="Psd_INSERT" parameterType="PsdVO">
+  	insert into psdtbl (seq, title, uploadfilestr)
+  	values (idx.nextval, #{title}, #{uploadFileStr})
+  </insert>
+    
+  <select id="Psd_UPLOADFILESTD"  parameterType="PsdVO" resultType="PsdVO" >
+    <![CDATA[
+   select NVL(max(uploadfilestr), 'space.PNG') uploadfilestr 
+     from psdtbl 
+    where seq = #{seq}
+    ]]> 
+  </select>
+  
+  <delete id="Psd_DELETE" parameterType="PsdVO">
+  	delete from psdtbl 
+  	 where seq = #{seq}
+  </delete>  
+  
+  <update id="Psd_UPDATE" parameterType="PsdVO">
+  	update psdtbl
+  	   set title = #{title}
+  	      ,regdate = #{regDate}
+  	      ,uploadfilestr = #{uploadFileStr}
+  	      ,cnt = #{cnt} 
+  	 where seq = #{seq}
+  </update>
+  
+  <update id="Psd_CNT" parameterType="PsdVO">
+  	update psdtbl
+  	   set cnt = cnt + 1 
+  	 where seq = #{seq}
+  </update>
+</mapper>

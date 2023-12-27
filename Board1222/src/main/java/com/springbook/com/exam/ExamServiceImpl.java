@@ -20,4 +20,9 @@ public class ExamServiceImpl implements ExamService{
 	public void examInsert(ExamVO vo) {
 		dao.examInsert(vo);		
 	}
+
+	@Override
+	public void examDelete(ExamVO vo) {
+		dao.examDelete(vo);		
+	}
 }

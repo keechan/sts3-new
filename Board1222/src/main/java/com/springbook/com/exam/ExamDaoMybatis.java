@@ -31,4 +31,10 @@ public class ExamDaoMybatis implements ExamDao {
 		mybatis.insert("ExamDao.Exam_INSERT", vo);
 	}
 
+	@Override
+	public void examDelete(ExamVO vo) {
+		System.out.println("===> Mybatis(Delete)");
+		mybatis.delete("ExamDao.Exam_DELETE", vo);		
+	}
+
 }
