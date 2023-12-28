@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+                        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ProductDao">
+  <select id="Product_SELECT"  parameterType="product" resultType="product" >
+   select product_id, product_name, product_price, product_desc, product_img product_imgStr
+     from tbl_product
+    where 1=1
+   <if test='ch1=="product_name"'>
+      and product_name like #{ch2}
+   </if>
+   <if test='ch1=="product_desc"'>
+      and product_desc like #{ch2}
+   </if>
+    order by product_id asc
+  </select>
+  
+  <select id="Product_SELECTONE" parameterType="product" resultType="product">
+  	select product_id, product_name, product_price, product_desc, product_img product_imgStr 
+  	  from tbl_product 
+  	 where product_id = #{product_id}
+  </select>
+
+  <insert id="Product_INSERT" parameterType="product">
+  	insert into tbl_product (product_id, product_name,    product_price,    product_desc,    product_img)
+    values                  (seq_product.nextval,   #{product_name}, #{product_price}, #{product_desc}, #{product_imgStr})
+  </insert>
+    
+  <delete id="Product_DELETE" parameterType="product">
+  	delete from tbl_product 
+  	 where product_id = #{product_id}
+  </delete>
+ 
+  <update id="Product_UPDATE" parameterType="product">
+  	<![CDATA[
+  	update tbl_product
+  	   set product_name = #{product_name}
+  	      ,product_price = #{product_price}
+  	      ,product_desc = #{product_desc}
+  	      ,product_img = #{product_imgStr}
+  	 where product_id = #{product_id}
+  	 ]]>
+  </update>
+</mapper>

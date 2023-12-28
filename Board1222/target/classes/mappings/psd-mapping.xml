@@ -39,12 +39,12 @@
   </delete>  
   
   <update id="Psd_UPDATE" parameterType="PsdVO">
+  	<![CDATA[
   	update psdtbl
   	   set title = #{title}
-  	      ,regdate = #{regDate}
   	      ,uploadfilestr = #{uploadFileStr}
-  	      ,cnt = #{cnt} 
   	 where seq = #{seq}
+  	 ]]>
   </update>
   
   <update id="Psd_CNT" parameterType="PsdVO">

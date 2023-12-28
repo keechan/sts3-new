@@ -15,34 +15,34 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.springbook.com.psd.PsdService;
-import com.springbook.com.psd.PsdVO;
+import com.springbook.com.shop.ProductService;
+import com.springbook.com.shop.ProductVO;
 
 @SessionAttributes("m")
 @Controller
-public class PsdController {
+public class ProductController {
 
 	@Autowired
 	private ServletContext  servletContext;
 	
 	@Autowired
-	private PsdService service;
+	private ProductService service;
 	
 	String path ="";
 	String timeStr ="";
 	// @PostConstruct 은 init() 메소드는 WAS 가 띄워질때 실행된다.
 	@PostConstruct
 	public  void init() {
-	  path = servletContext.getRealPath("/psd/img/");
+	  path = servletContext.getRealPath("/shop/img/");
 	  
-	}	
+	}
 	
-	@RequestMapping(value="psdInsertOK.do")
-	public  String psdInsertOK(PsdVO  vo) throws IOException {
+	@RequestMapping(value="productInsertOK.do")
+	public  String productInsertOK(ProductVO  vo) throws IOException {
 	
-		// D:\eclipse-workspace-sts3\.metadata\.plugins\org.eclipse.wst.server.core
-		//          \tmp0\wtpwebapps\SpringProject1222\psd\img\
-		
+//		// D:\eclipse-workspace-sts3\.metadata\.plugins\org.eclipse.wst.server.core
+//		//          \tmp0\wtpwebapps\SpringProject1222\psd\img\
+//		
 		System.out.println(" ====> path:"+ path);
 		
 		long time = System.currentTimeMillis();
@@ -51,11 +51,11 @@ public class PsdController {
 		// 시분초 : 120035
 		System.out.println("timeStr:"+ timeStr);
 		
-		MultipartFile uploadFile = vo.getUploadFile();
+		MultipartFile uploadFile = vo.getProduct_img();
 		
 		String fileName = uploadFile.getOriginalFilename();
 		File f = new File(path+fileName);
-		
+		System.out.println("====> Controller Path : " + path+fileName);
 		if (!uploadFile.isEmpty()) {
 		 if (f.exists()) {
 			String onlyFileName = fileName.substring(0,fileName.lastIndexOf("."));
@@ -66,53 +66,56 @@ public class PsdController {
 		}else {
 			fileName ="space.png";
 		}		
-		vo.setUploadFileStr(fileName);
-		service.insert(vo);
+		vo.setProduct_imgStr(fileName);
+		System.out.println("=====>Controller :" + vo);
+		service.productInsert(vo);
 		
-		return "psdList.do";		
+		return "productList.do";		
 	}
 
-	@RequestMapping(value="psdInsert.do")
-	public  String examInsert() {
-		return "/psd/psd_insert.jsp";		
+	@RequestMapping(value="productInsert.do")
+	public  String productInsert() {
+		return "/shop/product_insert.jsp";
 	}
 	
-	@RequestMapping(value="psdDelete.do")
-	public  String psdDelete(PsdVO  vo) {
+	@RequestMapping(value="productDelete.do")
+	public  String productDelete(ProductVO  vo, Model model) {
 		
-	    File delF = new File(path + vo.getUploadFileStr());
-	    
-	    if (!vo.getUploadFileStr().equals("space.png")) {
+	    File delF = new File(path + vo.getProduct_imgStr());	    
+	    if (!vo.getProduct_imgStr().equals("space.png")) {
 	    	delF.delete();  //  실제파일 삭제
-	    }		
-	    
-		service.delete(vo);
+	    }
+	    System.out.println("=====> Controller -> productDelete.do" + vo);
+		service.productDelete(vo);
 		
-		return "psdList.do";		
+		return "productList.do";		
 	}
 	
 	
-	@RequestMapping(value="psdList.do")
-	public  String psdList(PsdVO  vo, Model  model) {
+	@RequestMapping(value="productList.do")
+	public  String psdList(ProductVO  vo, Model  model) {
+		System.out.println("=====> productList.do : " + vo);
+		System.out.println("=====> ch1 :" + vo.getCh1());		
+		vo.setCh2("%"+vo.getCh2()+"%");
+		System.out.println("=====> ch2 :" + vo.getCh2());
+		model.addAttribute("li", service.getProductSelect(vo) );
+		System.out.println("=====> Controller productList.do");
 		
-		model.addAttribute("li", service.getListAll() );
-		
-		return "/psd/psd_list.jsp";		
+		return "/shop/product_list.jsp";
 	}
 	
-	@RequestMapping(value="psdEdit.do")
-	public  String psdEdit(PsdVO  vo, Model  model) {
+	@RequestMapping(value="productEdit.do")
+	public  String productEdit(ProductVO  vo, Model  model) {
+//		service.cnt(vo);
+		System.out.println("===> Controller productEdit.do");
+//		
+		model.addAttribute("m", service.getProductOne(vo) );
 		
-		service.cnt(vo);
-		
-		model.addAttribute("m", service.getListOne(vo) );
-		
-		return "/psd/psd_edit.jsp";		
+		return "/shop/product_edit.jsp";
 	}
-		
 	
-	@RequestMapping(value="psdUpdateOK.do")
-	public  String psdUpdateOK(@ModelAttribute("m") PsdVO  vo, Model  model) 
+	@RequestMapping(value="productUpdateOK.do")
+	public  String productUpdateOK(@ModelAttribute("m") ProductVO  vo, Model  model) 
 			throws Exception {
 	   System.out.println(" ====> path:"+ path);
 	   
@@ -120,15 +123,15 @@ public class PsdController {
 	   SimpleDateFormat daytime= new SimpleDateFormat("HHmmss");
 	   timeStr = daytime.format(time);
 
-		MultipartFile uploadFile = vo.getUploadFile();		
+		MultipartFile uploadFile = vo.getProduct_img();
 		String fileName = uploadFile.getOriginalFilename();
 		File f = new File(path+fileName);
 		
 		if (!uploadFile.isEmpty()) {
 			// 첨부파일이 있으면 ...    
 	           // vo.getUploadFileStr(); 기존파일명
-			  if (!vo.getUploadFileStr().equals("space.png")) {
-		         File delF = new File(path + vo.getUploadFileStr() );
+			  if (!vo.getProduct_imgStr().equals("space.png")) {
+		         File delF = new File(path + vo.getProduct_imgStr());
 		         delF.delete();
 			  }
 			  
@@ -140,13 +143,13 @@ public class PsdController {
 		 uploadFile.transferTo(new File(path + fileName));
 		}else {
 			// 첨부파일이 없으면
-			System.out.println("첨부파일이 없으면:" + vo.getUploadFileStr());
-			fileName =vo.getUploadFileStr();
+			System.out.println("첨부파일이 없으면:" + vo.getProduct_imgStr());
+			fileName =vo.getProduct_imgStr();
 		}		
-		vo.setUploadFileStr(fileName);
+		vo.setProduct_imgStr(fileName);
 		System.out.println("........>  " + vo);
-	   	service.update(vo); 		
-	   return "psdList.do";		
+	   	service.productUpdate(vo);
+	   return "productList.do";
 	}
 	
 }
