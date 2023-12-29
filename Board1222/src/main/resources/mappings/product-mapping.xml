@@ -26,7 +26,12 @@
   	insert into tbl_product (product_id, product_name,    product_price,    product_desc,    product_img)
     values                  (seq_product.nextval,   #{product_name}, #{product_price}, #{product_desc}, #{product_imgStr})
   </insert>
-    
+
+  <insert id="ShopBuyINSERT" parameterType="BuyVO">
+	insert into tbl_cart (cart_id, memberid, product_id, product_name, amount)
+	values (idx.nextval, #{memberid}, #{product_id}, #{product_name}, #{amount});
+  </insert>
+      
   <delete id="Product_DELETE" parameterType="product">
   	delete from tbl_product 
   	 where product_id = #{product_id}

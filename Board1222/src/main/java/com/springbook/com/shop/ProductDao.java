@@ -4,6 +4,7 @@ import java.util.List;
 
 public interface ProductDao {
 	void productInsert(ProductVO vo);
+	void shopBuyInsert(BuyVO vo);
 	void productUpdate(ProductVO vo);
 	void productDelete(ProductVO vo);
 	ProductVO getProductOne(ProductVO vo);

@@ -24,7 +24,7 @@ public class ProductDaoImpl implements ProductDao {
 
 	@Override
 	public void productDelete(ProductVO vo) {
-		// TODO Auto-generated method stub
+		mybatis.delete("ProductDao.Product_DELETE", vo);
 		
 	}
 
@@ -38,4 +38,8 @@ public class ProductDaoImpl implements ProductDao {
 		return mybatis.selectList("ProductDao.Product_SELECT");
 	}
 
+	@Override
+	public void shopBuyInsert(BuyVO vo) {
+		mybatis.insert("ProductDao.ShopBuyINSERT", vo);
+	}
 }

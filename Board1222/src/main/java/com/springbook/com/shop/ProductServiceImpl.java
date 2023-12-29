@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 public class ProductServiceImpl implements ProductService {
 
 	@Autowired
-	private ProductDaoImpl dao;
+	private ProductDao dao;
 	
 	@Override
 	public void productInsert(ProductVO vo) {
@@ -36,6 +36,9 @@ public class ProductServiceImpl implements ProductService {
 		System.out.println("======> ServiceImpl getProductSelect");
 		return dao.getProductSelect(vo);
 	}
-	
 
+	@Override
+	public void shopBuyInsert(BuyVO vo) {
+		dao.shopBuyInsert(vo);
+	}
 }

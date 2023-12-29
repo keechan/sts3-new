@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="MemberDao">
+ <insert id="INSERT" parameterType="member"  >
+   <![CDATA[
+     insert  into SHOP_MEMBER (memberid,name, pwd, phone,address,grade,etc )
+     values( memberseq.nextval, #{name}, #{pwd}, #{phone}, #{address}, #{grade}, #{etc})
+   ]]> 
+  </insert>
+  
+  <update id="UPDATE" parameterType="member"  >
+    <![CDATA[
+      update  SHOP_MEMBER 
+      set  name=#{name}, pwd=#{pwd},phone=#{phone}
+          ,address=#{address},grade=#{grade},etc=#{etc}
+      where memberid=#{memberid}
+    ]]>
+  </update>
+  
+ <delete id="DELETE" parameterType="member"  >
+    <![CDATA[
+      delete from  SHOP_MEMBER  where memberid=#{memberid}
+    ]]>
+  </delete>
+ 
+ <select id="SELECTONE"  parameterType="member" resultType="member">
+   <![CDATA[
+   select memberid,name, pwd, phone,address,grade,etc
+   from  SHOP_MEMBER  where memberid=#{memberid}
+   ]]>
+ </select> 
+ 
+ <!-- Dynamic SQL 적용 -->
+ <select id="SELECTALL"  parameterType="member" resultType="member">
+   select *  from  SHOP_MEMBER where 1=1
+   <if test="ch1=='name'">
+    and  name like #{ch2} 
+   </if>
+   
+  <if test="ch1=='address'">
+    and  address like #{ch2} 
+   </if>
+    order by  memberid  desc
+ </select>
+ 
+ <select id="LOGIN" parameterType="member" resultType="member">
+   <![CDATA[
+ 	select memberid, name, pwd, phone, address, grade, etc
+ 	  from shop_member
+ 	 where name = #{name}
+   ]]>
+ </select>
+ 
+</mapper>
